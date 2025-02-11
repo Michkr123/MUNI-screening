@@ -2,40 +2,44 @@ import requests
 import json
 import sys
 import re
+import os
 
 # GitHub repository details
-repo_owner = "cloudnative-pg"
-repo_name = "cloudnative-pg"
+repo_owner = "potpie-ai"
+repo_name = "potpie"
 
-# GitHub API URLs
 issues_url = f"https://api.github.com/repos/{repo_owner}/{repo_name}/issues"
-rate_limit_url = "https://api.github.com/rate_limit"  # Endpoint for rate limit info
+rate_limit_url = "https://api.github.com/rate_limit"
 
-# Your GitHub personal access token
-token = "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"  # Replace with your actual token
+# Load token from environment variable
+token = os.getenv("GITHUB_TOKEN")
+if not token:
+    print("Error: GitHub token not found. Set GITHUB_TOKEN environment variable.")
+    sys.exit(1)
 
-# Set the headers, including the Authorization with your token
 headers = {
     "Authorization": f"token {token}",
-    "User-Agent": "MyApp",  # Optional, replace with your GitHub username or app name
+    "User-Agent": "MyApp",
 }
 
 def process_message(message):
+    """Cleans up and formats message text."""
     if not message or not message.strip():
-        return ""  # Skip completely empty messages
-    cleaned_message = re.sub(r'\n\s*\n+', '\n', message.strip())  # Remove extra blank lines
-    return cleaned_message
+        return ""
+    return re.sub(r'\n\s*\n+', '\n', message.strip())
 
-
-# Fetch and process issues
 def fetch_and_process_issues():
+    """Fetches all issues (open and closed), processes comments, and outputs formatted JSON."""
     page = 1
     issues_data = []
-    total_requests = 0  # Track the number of requests made
+    total_requests = 0  
 
     while True:
-        # Fetch issues from GitHub API
-        response = requests.get(issues_url, params={"page": page, "per_page": 100}, headers=headers)
+        response = requests.get(
+            issues_url,
+            params={"page": page, "per_page": 100, "state": "all"},
+            headers=headers
+        )
         total_requests += 1
 
         if response.status_code != 200:
@@ -44,33 +48,38 @@ def fetch_and_process_issues():
 
         issues = response.json()
         if not issues:
-            break  # No more issues
+            break  
 
         for issue in issues:
+            if "pull_request" in issue:
+                continue  # Skip pull requests
+
             issue_id = issue["id"]
             title = issue["title"]
             state = issue["state"]
-            first_message = process_message(issue.get("body", ""))
-            messages = first_message  # Start with the first message
+            issue_author = issue["user"]["login"]
+            is_bot = "bot" in issue_author.lower()
 
-            # Fetch comments for the issue
+            first_message = process_message(issue.get("body", ""))
+            messages = first_message  
+
+            # Fetch comments
             comments_url = issue["comments_url"]
             comments_response = requests.get(comments_url, headers=headers)
             total_requests += 1
 
             if comments_response.status_code == 200:
                 comments = comments_response.json()
-                filtered_comments = []
-
-                for comment in comments:
-                    if "bot" not in comment["user"]["login"]:  # Skip bot messages
-                        filtered_comments.append(process_message(comment["body"]))
+                filtered_comments = [
+                    process_message(comment["body"])
+                    for comment in comments if "bot" not in comment["user"]["login"]
+                ]
 
                 if filtered_comments:
-                    messages += "\n---\n".join(filtered_comments)
+                    messages += "\n---\n" + "\n---\n".join(filtered_comments)
 
-            # If only the initial message is present (or no meaningful comments), mark as "no reaction"
-            if not messages.strip():
+            # If only the first message is present or the issue is created by a bot -> "no reaction"
+            if first_message == messages or is_bot:
                 state = "no reaction"
 
             issues_data.append({
@@ -81,9 +90,9 @@ def fetch_and_process_issues():
                 "messages": messages,
             })
 
-        page += 1  # Go to the next page
+        page += 1  
 
-    # Fetch rate limit info
+    # Check remaining API requests
     rate_limit_response = requests.get(rate_limit_url, headers=headers)
     total_requests += 1
 
@@ -91,11 +100,10 @@ def fetch_and_process_issues():
         remaining_requests = rate_limit_response.json()["rate"]["remaining"]
     else:
         print(f"Failed to check rate limit. Status code: {rate_limit_response.status_code}")
-        remaining_requests = None  # If unable to fetch rate limit info
+        remaining_requests = None  
 
     return issues_data, total_requests, remaining_requests
 
-# Check if user wants JSON output
 if __name__ == "__main__":
     issues_data, total_requests, remaining_requests = fetch_and_process_issues()
 
