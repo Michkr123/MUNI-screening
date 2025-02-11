@@ -1,9 +1,13 @@
 import express from 'express';
 import fs from 'fs';
 import path from 'path';
+import cors from 'cors';
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
+
+// Enable CORS to allow requests from frontend
+app.use(cors());
 
 // Get the current directory using import.meta.url and convert it to a path
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
@@ -13,14 +17,12 @@ const issuesFilePath = path.join(__dirname, '..', 'issues.json');
 
 // Route to fetch the data from issues.json
 app.get('/', (req, res) => {
-  // Read the issues.json file
   fs.readFile(issuesFilePath, 'utf8', (err, data) => {
     if (err) {
       console.error('Error reading issues.json:', err);
       return res.status(500).json({ message: 'Failed to read issues data' });
     }
     
-    // Parse the JSON data and send it as a response
     try {
       const issues = JSON.parse(data);
       res.json(issues);
@@ -32,5 +34,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+  console.log(`Server running at http://localhost:${port}`);
 });

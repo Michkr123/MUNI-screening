@@ -1,38 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import './index.css'
+import { useEffect, useState } from "react";
+import IssueList from "./components/IssueList";
+
+interface IssueProps {
+  title: string;
+  id: number;
+  state: string;
+  first: string;
+  messages: string;
+}
 
 const App = () => {
-  const [issues, setIssues] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [issues, setIssues] = useState<IssueProps[]>([]);
 
   useEffect(() => {
-    fetch('http://localhost:3000')
-      .then((response) => response.json())
-      .then((data) => {
-        setIssues(data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error('Error fetching issues:', error);
-        setLoading(false);
-      });
+    fetch("http://localhost:3000") 
+      .then((res) => res.json())
+      .then((data) => setIssues(data))
+      .catch((err) => console.error("Error fetching issues:", err));
   }, []);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
   return (
-    <div>
-      <h1 className='font-bold text-red-500'>Issues</h1>
-      <ul>
-        {issues.map((issue: any, index: number) => (
-          <li key={index}>
-            <h2>{issue.title}</h2>
-            <p>{issue.description}</p>
-          </li>
-        ))}
-      </ul>
+    <div className="p-5">
+      <h1 className="title font-semibold text-white text-center">Issue Tracker</h1>
+      <IssueList issues={issues} />
     </div>
   );
 };
