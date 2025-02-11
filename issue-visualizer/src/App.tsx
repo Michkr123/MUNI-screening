@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import './index.css'
 
 const App = () => {
   const [issues, setIssues] = useState<any[]>([]);
@@ -23,7 +24,7 @@ const App = () => {
 
   return (
     <div>
-      <h1>Issues</h1>
+      <h1 className='font-bold text-red-500'>Issues</h1>
       <ul>
         {issues.map((issue: any, index: number) => (
           <li key={index}>
