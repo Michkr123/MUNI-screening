@@ -7,7 +7,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #081b53;
+  background-color: #000000;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -17,6 +17,16 @@
 
 .title {
   font-size: calc(5vmin);
+}
+
+body {
+  font-size: calc(2vmin);
+}
+
+@media only screen and (max-width: 900px) {
+  body {
+    font-size: calc(3vmin);
+  }
 }
 
 

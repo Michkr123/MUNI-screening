@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Issue from "./Issue";
 import PaginationButtons from "./Pagination";
+import SelectDropdown from "./Dropdown";
 
 interface IssueProps {
   title: string;
@@ -34,37 +35,44 @@ const IssueList: React.FC<IssueListProps> = ({ issues }) => {
   const startIndex = (currentPage - 1) * issuesPerPage;
   const paginatedIssues = sortedIssues.slice(startIndex, startIndex + issuesPerPage);
 
+  // Scroll to top whenever the page changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [currentPage]);
+
   return (
     <div className="mt-4 space-y-4">
       {/* Filters & Sorting */}
       <div className="flex justify-between items-center mb-4">
         {/* Status Filter */}
-        <select
+        <SelectDropdown
+          label="Status"
           value={statusFilter}
           onChange={(e) => {
             setStatusFilter(e.target.value);
-            setCurrentPage(1); // Reset to first page on filter change
+            setCurrentPage(1);
           }}
-          className="px-3 py-2 bg-gray-700 text-white rounded-md"
-        >
-          <option value="all">All</option>
-          <option value="open">Open</option>
-          <option value="closed">Closed</option>
-          <option value="no reaction">No Reaction</option>
-        </select>
+          options={[
+            { value: "all", label: "All" },
+            { value: "open", label: "Open" },
+            { value: "closed", label: "Closed" },
+            { value: "no reaction", label: "No Reaction" },
+          ]}
+        />
 
         {/* Sorting */}
-        <select
+        <SelectDropdown
+          label="Sort By"
           value={sortOrder}
           onChange={(e) => {
             setSortOrder(e.target.value);
             setCurrentPage(1);
           }}
-          className="px-3 py-2 bg-gray-700 text-white rounded-md"
-        >
-          <option value="newest">Newest</option>
-          <option value="oldest">Oldest</option>
-        </select>
+          options={[
+            { value: "newest", label: "Newest" },
+            { value: "oldest", label: "Oldest" },
+          ]}
+        />
       </div>
 
       {/* Issue List */}

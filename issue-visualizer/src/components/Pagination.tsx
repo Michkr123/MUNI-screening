@@ -1,6 +1,5 @@
 import React from "react"; // Ensure React is explicitly imported
 import Pagination from "@mui/material/Pagination";
-import Stack from "@mui/material/Stack";
 
 interface PaginationProps {
   count: number;
