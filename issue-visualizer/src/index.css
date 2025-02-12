@@ -20,7 +20,7 @@
 }
 
 body {
-  font-size: calc(2vmin);
+  font-size: calc(1.5vmin);
 }
 
 @media only screen and (max-width: 900px) {

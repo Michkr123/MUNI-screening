@@ -23,10 +23,8 @@ export default function SelectDropdown({ label, value, options, onChange }: Sele
           onChange={onChange}
           sx={{
             color: "white",
-            fontSize: "inherit",
-            "& svg": { color: "white" },
-            "& option": { olor: "black" },
-            "& option:hover": { backgroundColor: "#ff0000", color: "white" },
+            "& svg": { color: "black" },
+            "& option": { color: "black" },
           }}
         >
           {options.map((option) => (
