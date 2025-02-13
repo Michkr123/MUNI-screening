@@ -41,6 +41,9 @@ nvm install 22
 npm run dev
 ```
 
+Pokud nemáte nvm, jeho instalaci naleznete zde:
+https://github.com/nvm-sh/nvm
+
 ## Zdroje
 ### Python skript
 https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api?apiVersion=2022-11-28

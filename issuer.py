@@ -105,6 +105,8 @@ def fetch_and_process_issues():
                         "first": first_message,
                         "messages": messages,
                     })
+                    print("Processed issues: ")
+
                 page += 1  
             except requests.exceptions.RequestException as e:
                 print(f"Error while fetching issues: {e}")
