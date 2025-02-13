@@ -10,7 +10,7 @@ Pro ověření funkčnosti skriptu je však možné ho spustit s návodem níže
 Bez jeho nastavení budete omezeni na 50 requestů na GitHub API, to v tomto skriptu například na issues repozitáře cloudnative-pg nestačí.
 Prosím mějte strpení, na mém zařízení a internetu běžel skript 6 minut a 30 sekund. Pro rychlejší běh lze zvolit jiný repozitář s méne issues. 
 
-Doufám, že jsou návody kompletní a vše poběží v pořádku, pokud by nastaly komplikace, neváhejte se ozvat. 
+Věřím, že jsou návody kompletní a vše poběží v pořádku, pokud by nastaly komplikace, neváhejte se ozvat. 
 
 ## Návod na spuštění skriptu
 

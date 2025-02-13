@@ -39,13 +39,13 @@ const IssueList: React.FC<IssueListProps> = ({ issues }) => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [currentPage]);
 
-  const handleStatusChange = (event: React.SyntheticEvent, newValue: string) => {
+  const handleStatusChange = (_: React.SyntheticEvent, newValue: string) => {
     setStatusFilter(newValue);
     setCurrentPage(1);
   };
 
   const handleSortChange = (
-    event: React.SyntheticEvent | null,
+    _: React.SyntheticEvent | null,
     newValue: string | null
   ) => {
     setSortOrder(newValue || "newest");
