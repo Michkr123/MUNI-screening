@@ -2,20 +2,18 @@ import express from 'express';
 import fs from 'fs';
 import path from 'path';
 import cors from 'cors';
+import { fileURLToPath } from 'url';
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Enable CORS to allow requests from frontend
 app.use(cors());
 
-// Get the current directory using import.meta.url and convert it to a path
-const __dirname = path.dirname(new URL(import.meta.url).pathname);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-// Correct path to issues.json (one level above the current directory)
 const issuesFilePath = path.join(__dirname, '..', 'issues.json');
 
-// Route to fetch the data from issues.json
 app.get('/', (req, res) => {
   fs.readFile(issuesFilePath, 'utf8', (err, data) => {
     if (err) {

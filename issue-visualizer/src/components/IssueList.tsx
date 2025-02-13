@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Issue from "./Issue";
-import PaginationButtons from "./Pagination";
-import SelectDropdown from "./Dropdown";
+import { Pagination, Tabs, Tab, Box } from "@mui/material";
+import Select from "@mui/joy/Select";
+import Option from "@mui/joy/Option";
 
 interface IssueProps {
   title: string;
@@ -22,67 +23,136 @@ const IssueList: React.FC<IssueListProps> = ({ issues }) => {
 
   const issuesPerPage = 10;
 
-  // Filter issues based on status
   const filteredIssues = issues.filter((issue) => {
     if (statusFilter === "all") return true;
     return issue.state === statusFilter;
   });
 
-  const sortedIssues = sortOrder === "oldest" ? [...filteredIssues].reverse() : filteredIssues;
+  const sortedIssues =
+    sortOrder === "oldest" ? [...filteredIssues].reverse() : filteredIssues;
 
-  // Pagination logic
   const totalPages = Math.ceil(sortedIssues.length / issuesPerPage);
   const startIndex = (currentPage - 1) * issuesPerPage;
   const paginatedIssues = sortedIssues.slice(startIndex, startIndex + issuesPerPage);
 
-  // Scroll to top whenever the page changes
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, [currentPage]);
+
+  const handleStatusChange = (event: React.SyntheticEvent, newValue: string) => {
+    setStatusFilter(newValue);
+    setCurrentPage(1);
+  };
+
+  const handleSortChange = (
+    event: React.SyntheticEvent | null,
+    newValue: string | null
+  ) => {
+    setSortOrder(newValue || "newest");
+    setCurrentPage(1);
+  };
 
   return (
     <div className="mt-4 space-y-4">
-      {/* Filters & Sorting */}
-      <div className="flex justify-between items-center mb-4">
-        {/* Status Filter */}
-        <SelectDropdown
-          label="Status"
-          value={statusFilter}
-          onChange={(e) => {
-            setStatusFilter(e.target.value);
-            setCurrentPage(1);
+      <Box
+        sx={{
+          display: "flex",
+          gap: 2,
+          width: "100%",
+          flexWrap: "nowrap",
+          "@media (max-width: 768px)": {
+            flexWrap: "wrap",
+          },
+        }}
+      >
+        {/* State Filter - MUI Tabs */}
+        <Box
+          sx={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "start",
+            "@media (max-width: 768px)": {
+              width: "100%",
+              justifyContent: "center",
+            },
           }}
-          options={[
-            { value: "all", label: "All" },
-            { value: "open", label: "Open" },
-            { value: "closed", label: "Closed" },
-            { value: "no reaction", label: "No Reaction" },
-          ]}
-        />
+        >
+          <Tabs
+            value={statusFilter}
+            onChange={handleStatusChange}
+            sx={{
+              width: "100%",
+              maxWidth: "400px",
+              display: "flex",
+              justifyContent: "flex-start",
+              "& .MuiTab-root": {
+                color: "white",
+                fontSize: "clamp(0.7rem, 2vw, 1rem)",
+                minWidth: "80px",
+                textAlign: "center",
+                flexGrow: 1,
+              },
+              "& .MuiTabs-indicator": {
+                backgroundColor: "white",
+              },
+              "@media (max-width: 768px)": {
+                width: "100%",
+                justifyContent: "center",
+                maxWidth: "100%",
+              },
+            }}
+          >
+            <Tab label="All" value="all" />
+            <Tab label="Open" value="open" />
+            <Tab label="Closed" value="closed" />
+            <Tab label="No Reaction" value="no reaction" />
+          </Tabs>
+        </Box>
 
-        {/* Sorting */}
-        <SelectDropdown
-          label="Sort By"
-          value={sortOrder}
-          onChange={(e) => {
-            setSortOrder(e.target.value);
-            setCurrentPage(1);
+        {/* Sorting - MUI Select */}
+        <Select
+          defaultValue="newest"
+          onChange={handleSortChange}
+          sx={{
+            flex: "0.3 1 auto",
+            minWidth: "120px",
+            maxWidth: "200px",
+            backgroundColor: "#222222",
+            color: "white",
+            fontSize: "clamp(0.8rem, 2vw, 1rem)",
+            "&:hover": {
+              backgroundColor: "#222222",
+            },
+            "@media (max-width: 768px)": {
+              width: "100%",
+              maxWidth: "800px",
+            },
           }}
-          options={[
-            { value: "newest", label: "Newest" },
-            { value: "oldest", label: "Oldest" },
-          ]}
-        />
-      </div>
+        >
+          <Option value="newest">Newest</Option>
+          <Option value="oldest">Oldest</Option>
+        </Select>
+      </Box>
 
       {/* Issue List */}
       {paginatedIssues.map((issue) => (
         <Issue key={issue.id} {...issue} />
       ))}
 
+      {/* Pagination - MUI Pagination */}
       {totalPages > 1 && (
         <div className="flex justify-center items-center mt-4">
-          <PaginationButtons count={totalPages} page={currentPage} onChange={(_, page) => setCurrentPage(page)} />
+          <Pagination
+            count={totalPages}
+            page={currentPage}
+            onChange={(_, page) => setCurrentPage(page)}
+            showFirstButton
+            showLastButton
+            color="primary"
+            sx={{
+              "& .MuiPaginationItem-root": { color: "white" },
+            }}
+          />
         </div>
       )}
     </div>

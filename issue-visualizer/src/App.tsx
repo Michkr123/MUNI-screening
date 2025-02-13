@@ -21,8 +21,8 @@ const App = () => {
 
   return (
     <div className="p-5">
-      <h1 className="title font-semibold text-white">Simple issue visualizer</h1>
-      <h2>Number of issues: {issues.length}</h2>
+      <h1 className="title font-semibold">Simple issue visualizer</h1>
+      <h2 className="NOissues">Number of issues: {issues.length}</h2>
       <IssueList issues={issues} />
     </div>
   );

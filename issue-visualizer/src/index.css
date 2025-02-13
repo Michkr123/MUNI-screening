@@ -7,7 +7,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #000000;
+  background-color: #222222;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -17,15 +17,20 @@
 
 .title {
   font-size: calc(5vmin);
+  color: royalblue;
 }
 
 body {
   font-size: calc(1.5vmin);
 }
 
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 768px) {
   body {
     font-size: calc(3vmin);
+  }
+
+  .title, .NOissues {
+    text-align: center;
   }
 }
 
