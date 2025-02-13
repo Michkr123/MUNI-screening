@@ -10,21 +10,25 @@ Pro ověření funkčnosti skriptu je však možné ho spustit s návodem níže
 Bez jeho nastavení budete omezeni na 50 requestů na GitHub API, to v tomto skriptu například na issues repozitáře cloudnative-pg nestačí.
 Prosím mějte strpení, na mém zařízení a internetu běžel skript 6 minut a 30 sekund. Pro rychlejší běh lze zvolit jiný repozitář s méne issues. 
 
-Věřím, že jsou návody kompletní a vše poběží v pořádku, pokud by nastaly komplikace, neváhejte se ozvat. 
+Věřím, žep jsou návody kompletní a vše poběží v pořádku, pokud by nastaly komplikace, neváhejte se ozvat. 
 
 ## Návod na spuštění skriptu
 
 ```
-python3 -r requirements.txt
+pip3 install -r requirements.txt
 export GITHUB_TOKEN="VAS_TOKEN"
 python3 issuer.py
 ```
 
 ## Návod na spuštění webu
 
+Navigujte se do složky issue-visualizer a proveďte:
+```
+npm install
+```
+
 ### Back-end
 
-Navigujte se do složky issue-visualizer a proveďte:
 ```
 npm run server
 ```
@@ -32,13 +36,10 @@ Toto spustí server, který slouží pro fetchování dat ze souboru issues.json
 
 ### Front-end
 
-Navigujte se do složky issue-visualizer a proveďte:
-
 ```
-npm install
+nvm install 22
 npm run dev
 ```
-
 
 ## Zdroje
 ### Python skript

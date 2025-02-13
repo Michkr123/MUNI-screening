@@ -1,3 +1,4 @@
+# Python 3.12.3
 import requests
 import json
 import sys
