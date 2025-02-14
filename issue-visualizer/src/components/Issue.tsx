@@ -39,14 +39,14 @@ const Issue: React.FC<IssueProps> = ({ title, state, first, messages }) => {
         <div className="mt-3 space-y-3">
           <h3 className="font-semibold text-gray-300">Description:</h3>
           <div className="p-3 bg-gray-700 rounded-md max-w-full overflow-auto">
-            <ReactMarkdown>{first}</ReactMarkdown>
+            <ReactMarkdown>{formatMarkdown(first)}</ReactMarkdown>
           </div>
 
           <h3 className="font-semibold text-gray-300">Messages:</h3>
           <div>
             {splitMessages.map((message, index) => (
               <div key={index} className="p-3 bg-gray-600 rounded-md mt-2 max-w-full overflow-auto">
-                <ReactMarkdown>{message}</ReactMarkdown>
+                <ReactMarkdown>{formatMarkdown(message)}</ReactMarkdown>
               </div>
             ))}
           </div>
