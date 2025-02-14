@@ -57,6 +57,7 @@ def fetch_comments(session, comments_url):
 def fetch_and_process_issues():
     """Fetches all issues (open and closed), processes comments, and outputs formatted JSON."""
     page = 1
+    issue_count = 0
     issues_data = []
 
     with requests.Session() as session:
@@ -105,7 +106,8 @@ def fetch_and_process_issues():
                         "first": first_message,
                         "messages": messages,
                     })
-                    print("Processed issues: ")
+                    issue_count += 1
+                    print(f"Processed issues: {issue_count}")
 
                 page += 1  
             except requests.exceptions.RequestException as e:
