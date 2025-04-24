@@ -1,18 +1,18 @@
-# ICS MUNI screening
+# ICS MUNI screening (Python scraper for Github issues + React/Typescript visualizer)
 
-## Popis
+## Description
 
-Tato úloha je vypracována v rámci screeningu ICS MUNI na pozici React vývojář.
-Skript issuer.py stáhne a naformátuje všechny otevřené i zavřené problémy, naformátuje je a uloží do .json souboru dle zadání (viz zadani.pdf).
+This role is developed as part of the ICS MUNI screening for the position of React developer.
+The script issuer.py is a scraper that downloads and formats all open and closed issues from the Gihub repository, formats them and saves them in a .json file as specified (see zadani.pdf).
 
-Data issues z GitHub repozitáře cloudnative-pg účtu cloudnative-pg jsou již stažena. Není třeba skript pro spuštění stránky znovu stahovat.
-Pro ověření funkčnosti skriptu je však možné ho spustit s návodem níže, prosím držte se návodu a nastavte si váš github token. 
-Bez jeho nastavení budete omezeni na 50 requestů na GitHub API, to v tomto skriptu například na issues repozitáře cloudnative-pg nestačí.
-Prosím mějte strpení, na mém zařízení a internetu běžel skript 6 minut a 30 sekund. Pro rychlejší běh lze zvolit jiný repozitář s méne issues. 
+Issue data from the GitHub repository of the cloudnative-pg account cloudnative-pg is already downloaded. There is no need to re-download the script to run the page.
+However, to test the functionality of the script, you can run it with the instructions below, please follow the instructions and set up your github token. 
+Without setting it up you will be limited to 50 requests to the GitHub API, this is not enough in this script for the cloudnative-pg repository issues for example.
+Please be patient, on my device and internet the script ran for 6 minutes and 30 seconds. For a faster run you can choose another repository with less issues. 
 
-Věřím, žep jsou návody kompletní a vše poběží v pořádku, pokud by nastaly komplikace, neváhejte se ozvat. 
+I trust that the instructions are complete and everything will run fine, if there are complications, please do not hesitate to get in touch. 
 
-## Návod na spuštění skriptu
+## Instructions for running the script
 
 ```
 pip3 install -r requirements.txt
@@ -20,9 +20,9 @@ export GITHUB_TOKEN="VAS_TOKEN"
 python3 issuer.py
 ```
 
-## Návod na spuštění webu
+## Instructions for running the site
 
-Navigujte se do složky issue-visualizer a proveďte:
+Navigate to the issue-visualizer folder and execute:
 ```
 npm install
 ```
@@ -32,31 +32,33 @@ npm install
 ```
 npm run server
 ```
-Toto spustí server, který slouží pro fetchování dat ze souboru issues.json  
+This will start the server that is used to fetch data from the issues file. json 
 
-### Front-end
+## Front-end
 
 ```
 nvm install 22
 npm run dev
 ```
 
-Pokud nemáte nvm, jeho instalaci naleznete zde:
+If you don't have nvm, you can find its installation here:
 https://github.com/nvm-sh/nvm
 
-## Zdroje
-### Python skript
-https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api?apiVersion=2022-11-28
+## Resources
+### Python script
+https://docs.github. com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api?apiVersion=2022-11-28
 https://stackoverflow.com/questions/17622439/how-to-use-github-api-token-in-python-for-requesting
 https://www.merge.dev/blog/get-all-issues-github-api-python
 
-### Back-end
+## Back-end
 https://dev.to/codewithshahan/your-first-backend-application-using-nodejs-45i
 
-### Front-end
+## Front-end
 https://tailwindcss.com/docs/installation/using-postcss
 
-#### MUI prvky
+#### MUI elements
 https://mui.com/material-ui/react-tabs/
 https://mui.com/material-ui/react-pagination/
 https://mui.com/material-ui/react-select/
+
+Translated with DeepL.com (free version)
