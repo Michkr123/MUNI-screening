@@ -60,5 +60,3 @@ https://tailwindcss.com/docs/installation/using-postcss
 https://mui.com/material-ui/react-tabs/
 https://mui.com/material-ui/react-pagination/
 https://mui.com/material-ui/react-select/
-
-Translated with DeepL.com (free version)
