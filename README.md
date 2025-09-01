@@ -1,4 +1,4 @@
-# ICS MUNI screening (Python scraper for Github issues + React/Typescript visualizer)
+# ICS MUNI screening (Python GitHub Issues API client + React/Typescript visualizer)
 
 ## Description
 
